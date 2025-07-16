@@ -1,11 +1,21 @@
 /* Image options inside MaxDiff */
 .maxdiff-img {
-    width: 240px;
+    width: 100%;
+    max-width: 240px;
     aspect-ratio: 16 / 9;
     object-fit: contain;
     display: block;
     margin: 0 auto;
     cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.maxdiff-img:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 /* Modal styles */
@@ -29,26 +39,42 @@
     justify-content: center;
     z-index: 1000;
 }
-
 .modal__container {
     background: white;
-    padding: 0.5em;
-    width: 94vw;
-    height: 94vh;
-    overflow: auto;
+    padding: 0;
+    max-width: 95vw;
+    max-height: 95vh;
+    overflow: hidden;
     border-radius: 4px;
     position: relative;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.modal__content img {
-    width: 100%;
+.modal__content img,
+#image-modal img {
+    width: auto;
     height: auto;
-    max-height: 92vh;
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
     display: block;
     margin: 0 auto;
 }
 
+/* Limit modal width more strictly in landscape viewports */
+@media (orientation: landscape) {
+    .modal__container {
+        max-width: 80vw;
+    }
+
+    .modal__content img,
+    #image-modal img {
+        max-width: 80vw;
+    }
+}
 .modal__close {
     position: absolute;
     top: 0.5em;
@@ -57,4 +83,142 @@
     border: none;
     font-size: 1.5em;
     cursor: pointer;
+    z-index: 1001;
+}
+
+/* Zoom controls (Bootstrap-compatible) */
+#zoom-controls {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    z-index: 1001;
+}
+
+#zoom-controls .btn {
+    font-size: 1.25rem;
+    padding: 0.25rem 0.75rem;
+    line-height: 1;
+    background-color: white;
+    border-color: #007aff;
+    color: #007aff;
+}
+
+#zoom-controls .btn:hover {
+    background-color: #007aff;
+    /* same as border/text */
+    color: white;
+    border-color: #007aff;
+}
+
+/* ─────────────────────────────────────────── */
+
+.clickable-radio-cell {
+    cursor: pointer;
+}
+
+.clickable-radio-cell:hover {
+    background-color: rgba(0, 0, 0, 0.025);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jspsych-content-wrapper {
+    padding: 2rem 1rem;
+    margin: 0 auto;
+    max-width: 800px;
+    width: 100%;
+}
+
+.jspsych-maxdiff-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.25rem;
+    margin-top: 0.5em;
+}
+
+.jspsych-maxdiff-table tr {
+    background-color: white !important;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 8px;
+}
+
+.jspsych-maxdiff-table td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+    border-bottom: none !important;
+}
+
+.jspsych-maxdiff-table input[type="radio"] {
+    transform: scale(1.5);
+    margin-right: 0.5em;
+    cursor: pointer;
+    accent-color: #007aff;
+    transition: box-shadow 0.2s ease;
+}
+
+.jspsych-maxdiff-table input[type="radio"]:focus {
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.3);
+    outline: none;
+}
+
+.jspsych-maxdiff-table tr.most-selected {
+    background-color: rgba(52, 199, 89, 0.08) !important;
+}
+
+.jspsych-maxdiff-table tr.least-selected {
+    background-color: rgba(255, 59, 48, 0.08) !important;
+}
+
+/* Apple-style jsPsych Continue button */
+.jspsych-btn {
+    background-color: transparent;
+    color: #007aff;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+    border: 1px solid #007aff;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.jspsych-btn:hover {
+    background-color: rgba(0, 122, 255, 0.1);
+}
+
+.jspsych-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
+}
+
+.jspsych-btn:disabled {
+    background-color: transparent;
+    color: #a1a1a6;
+    border-color: #c7c7cc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.maxdiff-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.maxdiff-label {
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.maxdiff-preamble {
+    text-align: left;
+    margin-bottom: 1em;
+}
+
+.maxdiff-preamble p+p {
+    margin-top: 0.75em;
 }
