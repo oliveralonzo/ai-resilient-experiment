@@ -26,11 +26,12 @@ const jsPsych = initJsPsych({
 
 const timeline = [];
 
-function makeIntro(text) {
+function makeIntro(url) {
     return {
-        type: jsPsychHtmlButtonResponse,
-        stimulus: `<p>${text}</p>`,
-        choices: ['Start']
+        type: jsPsychExternalHtml,
+        url,
+        cont_btn: 'start',
+        execute_script: false
     };
 }
 
@@ -124,18 +125,24 @@ function makeMaxDiffTrial(items, setName, fullSet) {
                 data[`unselected_label_${index + 1}`] = obj.label;
             });
 
+            const now = new Date();
+            data.timestamp = now.toLocaleString('en-US', { hour12: false });
+
+
             sendToServer(data);
         }
     };
 }
 
-timeline.push(makeIntro('Starting the binary item block.'));
+timeline.push(makeIntro('instructions/intro.html'));
+
+timeline.push(makeIntro('instructions/binary.html'));
 const binaryShuffled = shuffle([...binary], participantID);
 timeline.push(...binaryShuffled.map(t =>
     makeMaxDiffTrial(t, 'binary', binary)
 ));
 
-timeline.push(makeIntro('Starting the gradient item block.'));
+timeline.push(makeIntro('instructions/gradient.html'));
 const gradientShuffled = shuffle([...gradient], participantID);
 timeline.push(...gradientShuffled.map(t =>
     makeMaxDiffTrial(t, 'gradient', gradient)
