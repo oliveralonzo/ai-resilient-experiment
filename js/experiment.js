@@ -44,7 +44,7 @@ function makeMaxDiffTrial(items, setName, fullSet) {
 
     const altHTML = shuffledItems.map(n =>
         `<div class="maxdiff-option">
-      <img src="images/${setName}/${n}.png" class="maxdiff-img" />
+      <img src="images/${setName}/${n}.svg" class="maxdiff-img" />
       <div class="maxdiff-label">${getLabel(setName, n)}</div>
     </div>`
     );

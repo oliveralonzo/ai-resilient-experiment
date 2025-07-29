@@ -11,6 +11,7 @@
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: white;
 }
 
 .maxdiff-img:hover {
@@ -39,11 +40,14 @@
     justify-content: center;
     z-index: 1000;
 }
+
 .modal__container {
     background: white;
     padding: 0;
     max-width: 95vw;
     max-height: 95vh;
+    width: 95vw;
+    height: calc(95vw * 9 / 16);
     overflow: hidden;
     border-radius: 4px;
     position: relative;
@@ -53,9 +57,10 @@
     justify-content: center;
 }
 
+.modal__content,
 .modal__content img,
 #image-modal img {
-    width: auto;
+    width: 100%;
     height: auto;
     max-width: 95vw;
     max-height: 95vh;
@@ -64,17 +69,29 @@
     margin: 0 auto;
 }
 
-/* Limit modal width more strictly in landscape viewports */
-@media (orientation: landscape) {
+@media (orientation: portrait) {
     .modal__container {
-        max-width: 80vw;
-    }
-
-    .modal__content img,
-    #image-modal img {
-        max-width: 80vw;
+        width: 90vw;
+        height: calc(90vw * 9 / 16);
     }
 }
+
+/* Width-constrained: when height is plentiful */
+@media (orientation: landscape) and (max-aspect-ratio: 16/9) {
+    .modal__container {
+        width: 80vw;
+        height: calc(80vw * 9 / 16);
+    }
+}
+
+/* Height-constrained: when screen is wide but short */
+@media (orientation: landscape) and (min-aspect-ratio: 16/9) {
+    .modal__container {
+        height: 90vh;
+        width: calc(90vh * 16 / 9);
+    }
+}
+
 .modal__close {
     position: absolute;
     top: 0.5em;
